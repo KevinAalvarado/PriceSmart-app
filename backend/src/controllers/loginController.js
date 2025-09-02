@@ -66,7 +66,7 @@ loginController.login = async (req, res) => {
 
     // Si no es administrador, validamos la contraseña
     if (userType !== "Admin") {
-      const isMatch = await bcryptjs.compare(password, userFound.password);
+      const isMatch = bcryptjs.compare(password, userFound.password);
       if (!isMatch) {
         //Si la contraseña es incorrecta
         //incrementar el numero de intentos fallidos
@@ -89,7 +89,7 @@ loginController.login = async (req, res) => {
     }
 
     // Generar token
-    jsonwebtoken.sign(
+    const token = jsonwebtoken.sign(
       //1- Que voy a guardar
       { id: userFound._id, userType },
       //2- Clave secreta
